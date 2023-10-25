@@ -1,0 +1,59 @@
+FROM broadinstitute/gtex_rnaseq:latest
+FROM python:latest
+
+MAINTAINER sdugad1@jhu.edu
+
+ENV PACKAGES gcc g++ make wget zlib1g-dev unzip
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends ${PACKAGES} && \
+    apt-get clean && \
+    g++ --version
+
+RUN apt-get install -y apt-utils
+RUN apt-get install -y python3
+
+#ARG STAR_VERSION=2.7.10a
+
+#STAR v2.7.10a
+RUN cd /opt && \
+    wget --no-check-certificate https://github.com/alexdobin/STAR/archive/2.7.10a.tar.gz && \
+    tar -xf 2.7.10a.tar.gz && rm 2.7.10a.tar.gz
+    
+ENV PATH /opt/STAR-2.7.10a/bin/Linux_x86_64_static:$PATH
+
+# Picard
+RUN mkdir /opt/picard-tools && \
+    wget --no-check-certificate -P /opt/picard-tools/ https://github.com/broadinstitute/picard/releases/download/2.27.1/picard.jar
+
+# RSEM v1.3.3
+RUN cd /opt && \
+    wget --no-check-certificate https://github.com/deweylab/RSEM/archive/v1.3.3.tar.gz && \
+    tar -xvf v1.3.3.tar.gz && rm v1.3.3.tar.gz && cd RSEM-1.3.3 && make
+ENV PATH /opt/RSEM-1.3.3:$PATH
+
+
+#RNA-Seqc v2.3.6:
+RUN mkdir /opt/rnaseqc && cd /opt/rnaseqc && \
+    wget --no-check-certificate https://github.com/getzlab/rnaseqc/releases/download/v2.4.2/rnaseqc.v2.4.2.linux.gz && \
+    gunzip rnaseqc.v2.4.2.linux.gz && mv rnaseqc.v2.4.2.linux rnaseqc && chmod 775 rnaseqc
+
+RUN pip3 install rnaseqc
+ENV PATH /opt/rnaseqc:$PATH
+
+##AWS INSTALL
+RUN pip install awscli
+
+
+## install java 
+RUN apt-get install -y default-jre
+RUN java --version
+
+## nextflow install
+RUN cd /opt && wget -qO- https://get.nextflow.io | bash && \
+    chmod +x nextflow
+ENV PATH /opt/nextflow:$PATH
+
+## samtools install
+RUN cp -r opt/RSEM-1.3.3/samtools-1.3 /opt/
+ENV PATH /opt/samtools-1.3:$PATH
