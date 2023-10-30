@@ -19,7 +19,7 @@
 
 #### Step 2: Incorporating Docker File to AWS Batch 
 &ensp; 1. Open Ubuntu and run the following commands: \
-&emsp; &ensp; **docker image build -t gtex_pipeline/primary:1.0 .**    &emsp; # building an image. { docker image build -t <\ tag-name>\ . } \
+&emsp; &ensp; **docker image build -t gtex_pipeline/primary:1.0 .**    &emsp; # building an image. {-t <\ tag-name>\ . } \
 &emsp; &ensp; The last period (.) means the Dockerfile is present in the current directory. \
 &emsp; &ensp; Message: -- Successfully built db7d00a0bbea. This baseID can be used to access the Docker image instead of using its name tag. \
 &emsp; &ensp; **docker image ls**    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # verify your image \
