@@ -18,4 +18,20 @@
 &emsp; &ensp;   **aws s3 ls**
 
 #### Step 2: Incorporating Docker File to AWS Batch 
-    
+## building the image
+docker image build -t gtex_pipeline/20231029:1.0 .     
+# The last period (.) means the Dockerfile is present in the current directory.
+#You will get the message -- Successfully built db7d00a0bbea . It is Successfully built <base ID>
+#You can use baseID to access the particular Docker image instead of using its name tag.
+
+#verify your image
+docker image ls
+
+#you can also use use the following command to temporary run your image in your local system
+
+docker run -p 3000:3000 gtex_pipeline/20231029:1.0    ## docker run -p 3000:3000 <name-tag>     or
+docker run -p 3000:3000 db7d00a0bbea    ## docker run -p 3000:3000 <base-id>
+
+## We now push this image to a container registry to use it in a real-world senario. Here we use Amazon Elastic Container Service provided by AWS.
+## AWS-CLI is ued for smooth communication betweeen local docker image and ECS
+
