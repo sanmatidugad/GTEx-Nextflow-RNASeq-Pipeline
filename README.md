@@ -42,5 +42,7 @@
 &emsp; d. Finally, we push the docker image to ECR. \
 &emsp; &ensp; ``` docker push <ecr-repo-uri> ```  &emsp;  # Docker can be viewed by going into the ECR repo
 
+#### Step 3: Creating a Configuration file for Nextflow.
+
 
 
